@@ -28,10 +28,12 @@ public class OnBoardingActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+
         b.selectKeyboardBtn.setOnClickListener(view -> {
             InputMethodManager imeManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             imeManager.showInputMethodPicker();
         });
+
     }
 
     //to know when the picker has been closed
@@ -42,6 +44,7 @@ public class OnBoardingActivity extends AppCompatActivity {
             // KEYBOARD IS SET AS DEFAULT
             b.step1Layout.setVisibility(View.GONE);
             b.step2Layout.setVisibility(View.GONE);
+
             b.step3Layout.setVisibility(View.VISIBLE);
             b.edittext.requestFocus();
         }
@@ -59,12 +62,14 @@ public class OnBoardingActivity extends AppCompatActivity {
                 b.step3Layout.setVisibility(View.VISIBLE);
                 b.edittext.requestFocus();
             } else {
+
                 // KEYBOARD IS ENABLED
                 b.step1Layout.setVisibility(View.GONE);
                 b.step2Layout.setVisibility(View.VISIBLE);
                 b.step3Layout.setVisibility(View.VISIBLE);
             }
         }
+
     }
 
 }
