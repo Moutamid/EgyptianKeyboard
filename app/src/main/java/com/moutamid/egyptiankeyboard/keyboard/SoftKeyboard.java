@@ -2,11 +2,13 @@ package com.moutamid.egyptiankeyboard.keyboard;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -51,6 +53,7 @@ import java.util.List;
  */
 public class SoftKeyboard extends InputMethodService
         implements KeyboardView.OnKeyboardActionListener, Filterable {
+    private static final String TAG = "SoftKeyboardd";
     static final boolean DEBUG = false;
 
     /**
@@ -85,8 +88,8 @@ public class SoftKeyboard extends InputMethodService
 
     public String mWordSeparators;
 
-     ArrayList<String> dictionary = new ArrayList();
-     ArrayList<String> dictionaryAll = new ArrayList();
+    ArrayList<String> dictionary = new ArrayList();
+    ArrayList<String> dictionaryAll = new ArrayList();
 
     /**
      * Main initialization of the input method component.  Be sure to call
@@ -95,19 +98,22 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onCreate() {
         super.onCreate();
-        if (isNetworkConnected(getApplicationContext())) {
-            checkApp();
-        } else {
-            mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            mWordSeparators = getResources().getString(R.string.word_separators);
-        }
-       // Constants.checkApp((Activity) getApplicationContext());
+        Log.d(TAG, "onCreate: ");
+//        if (isNetworkConnected(getApplicationContext())) {
+//            checkApp();
+//        } else {
+        mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        mWordSeparators = getResources().getString(R.string.word_separators);
+//        }
+        // Constants.checkApp((Activity) getApplicationContext());
         Log.d("Checking123", "Started ");
     }
 
     private void setSuggestionsList() {
+        Log.d(TAG, "setSuggestionsList: ");
         BufferedReader reader = null;
         try {
+            Log.d(TAG, "setSuggestionsList: try {");
             reader = new BufferedReader(
                     new InputStreamReader(getAssets().open("words_alpha.txt")));
 
@@ -121,6 +127,7 @@ public class SoftKeyboard extends InputMethodService
             dictionary = new ArrayList<>(new LinkedHashSet<>(dictionary));
             //setSuggestions(list, false, false);
         } catch (IOException e) {
+            Log.d(TAG, "setSuggestionsList: Exception: " + e);
             //log the exception
         } finally {
             if (reader != null) {
@@ -139,7 +146,9 @@ public class SoftKeyboard extends InputMethodService
      */
     @Override
     public void onInitializeInterface() {
+        Log.d(TAG, "onInitializeInterface: ");
         if (mQwertyKeyboard != null) {
+            Log.d(TAG, "onInitializeInterface: if (mQwertyKeyboard != null) {");
             // Configuration changes can happen after the keyboard gets recreated,
             // so we need to be able to re-build the keyboards if the available
             // space has changed.
@@ -155,7 +164,9 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onComputeInsets(Insets outInsets) {
         super.onComputeInsets(outInsets);
+        Log.d(TAG, "onComputeInsets: ");
         if (!isFullscreenMode()) {
+            Log.d(TAG, "onComputeInsets: if (!isFullscreenMode()) {");
             outInsets.contentTopInsets = outInsets.visibleTopInsets;
         }
     }
@@ -170,14 +181,18 @@ public class SoftKeyboard extends InputMethodService
 
     @Override
     public View onCreateInputView() {
-       // Constants.checkApp((Activity) getApplicationContext());
+        Log.d(TAG, "onCreateInputView: ");
+        // Constants.checkApp((Activity) getApplicationContext());
         String color = Stash.getString("color", "red");
-       // mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
-        if (color.equals("red")){
+        // mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
+        if (color.equals("red")) {
+            Log.d(TAG, "onCreateInputView: red");
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
-        } else if (color.equals("blue")){
+        } else if (color.equals("blue")) {
+            Log.d(TAG, "onCreateInputView: blue");
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
-        }   else if (color.equals("green")){
+        } else if (color.equals("green")) {
+            Log.d(TAG, "onCreateInputView: green");
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
         }
 
@@ -191,11 +206,12 @@ public class SoftKeyboard extends InputMethodService
     }
 
     private void setLatinKeyboard(LatinKeyboard nextKeyboard) {
+        Log.d(TAG, "setLatinKeyboard: ");
         boolean shouldSupportLanguageSwitchKey = false;
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //            shouldSupportLanguageSwitchKey = mInputMethodManager.shouldOfferSwitchingToNextInputMethod(getToken());
 //        }
-       // nextKeyboard.setLanguageSwitchKeyVisibility(shouldSupportLanguageSwitchKey);
+        // nextKeyboard.setLanguageSwitchKeyVisibility(shouldSupportLanguageSwitchKey);
         mInputView.setKeyboard(nextKeyboard);
         //setCandidatesViewShown(true);
         setSuggestionsList();
@@ -207,11 +223,11 @@ public class SoftKeyboard extends InputMethodService
      */
     @Override
     public View onCreateCandidatesView() {
+        Log.d(TAG, "onCreateCandidatesView: ");
         mCandidateView = new CandidateView(this);
         mCandidateView.setService(this);
         return mCandidateView;
     }
-
 
 
     /**
@@ -223,6 +239,7 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        Log.d(TAG, "onStartInput: ");
         setCandidatesViewShown(true);
 
         // Reset our state.  We want to do this even if restarting, because
@@ -231,6 +248,7 @@ public class SoftKeyboard extends InputMethodService
         updateCandidates();
 
         if (!restarting) {
+            Log.d(TAG, "onStartInput: if (!restarting) {");
             // Clear shift states.
             mMetaState = 0;
         }
@@ -279,6 +297,7 @@ public class SoftKeyboard extends InputMethodService
                     // Our predictions are not useful for e-mail addresses
                     // or URIs.
                     mPredictionOn = false;
+                    Log.d(TAG, "onStartInput: variation == ");
                 }
 
                 if ((attribute.inputType & InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE) != 0) {
@@ -302,6 +321,7 @@ public class SoftKeyboard extends InputMethodService
                 // keyboard with no special features.
                 mCurKeyboard = mQwertyKeyboard;
                 updateShiftKeyState(attribute);
+                Log.d(TAG, "onStartInput: default:");
         }
 
         // Update the label on the enter key, depending on what the application
@@ -316,6 +336,7 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onFinishInput() {
         super.onFinishInput();
+        Log.d(TAG, "onFinishInput: ");
 
         // Clear current composing text and candidates.
         mComposing.setLength(0);
@@ -329,6 +350,7 @@ public class SoftKeyboard extends InputMethodService
 
         mCurKeyboard = mQwertyKeyboard;
         if (mInputView != null) {
+            Log.d(TAG, "onFinishInput: if (mInputView != null) {");
             mInputView.closing();
         }
     }
@@ -336,17 +358,22 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onStartInputView(EditorInfo attribute, boolean restarting) {
         super.onStartInputView(attribute, restarting);
+        Log.d(TAG, "onStartInputView: ");
+
         // Apply the selected keyboard to the input view.
         setInputView(onCreateInputView());
         setLatinKeyboard(mCurKeyboard);
         mInputView.closing();
-        final InputMethodSubtype subtype = mInputMethodManager.getCurrentInputMethodSubtype();
-        mInputView.setSubtypeOnSpaceKey(subtype);
+        if (mInputMethodManager != null) {
+            final InputMethodSubtype subtype = mInputMethodManager.getCurrentInputMethodSubtype();
+            mInputView.setSubtypeOnSpaceKey(subtype);
+        }
     }
 
     @Override
     public void onCurrentInputMethodSubtypeChanged(InputMethodSubtype subtype) {
         mInputView.setSubtypeOnSpaceKey(subtype);
+        Log.d(TAG, "onCurrentInputMethodSubtypeChanged: ");
     }
 
     /**
@@ -358,15 +385,17 @@ public class SoftKeyboard extends InputMethodService
                                   int candidatesStart, int candidatesEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd,
                 candidatesStart, candidatesEnd);
-
+        Log.d(TAG, "onUpdateSelection: ");
         // If the current selection in the text view changes, we should
         // clear whatever candidate text we have.
         if (mComposing.length() > 0 && (newSelStart != candidatesEnd
                 || newSelEnd != candidatesEnd)) {
+            Log.d(TAG, "onUpdateSelection: if condition");
             mComposing.setLength(0);
             updateCandidates();
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
+                Log.d(TAG, "onUpdateSelection: if (ic != null) {");
                 ic.finishComposingText();
             }
         }
@@ -381,7 +410,9 @@ public class SoftKeyboard extends InputMethodService
     @Override
     public void onDisplayCompletions(CompletionInfo[] completions) {
         Log.d("Checking123", "Ok Working");
+        Log.d(TAG, "onDisplayCompletions: ");
         if (mCompletionOn) {
+            Log.d(TAG, "onDisplayCompletions: ");
             mCompletions = completions;
             if (completions == null) {
                 setSuggestions(null, false, false);
@@ -400,11 +431,12 @@ public class SoftKeyboard extends InputMethodService
                         dictionaryAll = (ArrayList<String>) dictionary.stream().filter(word -> word.contains(ci.getText().toString())).collect(Collectors.toList());
                     }
                     setSuggestions(dictionaryAll, true, true);*/
-                   // new FilterDictionary().execute(ci.getText().toString());
+                    // new FilterDictionary().execute(ci.getText().toString());
                 }
             }
 
         }
+        Log.d(TAG, "onDisplayCompletions: ended");
     }
 
     /**
@@ -413,6 +445,7 @@ public class SoftKeyboard extends InputMethodService
      * PROCESS_HARD_KEYS option.
      */
     private boolean translateKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "translateKeyDown: ");
         mMetaState = MetaKeyKeyListener.handleKeyDown(mMetaState,
                 keyCode, event);
         int c = event.getUnicodeChar(MetaKeyKeyListener.getMetaState(mMetaState));
@@ -451,8 +484,10 @@ public class SoftKeyboard extends InputMethodService
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyDown: ");
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
+                Log.d(TAG, "onKeyDown: case KeyEvent.KEYCODE_BACK:");
                 // The InputMethodService already takes care of the back
                 // key for us, to dismiss the input method if it is shown.
                 // However, our keyboard could be showing a pop-up window
@@ -465,6 +500,7 @@ public class SoftKeyboard extends InputMethodService
                 break;
 
             case KeyEvent.KEYCODE_DEL:
+                Log.d(TAG, "onKeyDown: case KeyEvent.KEYCODE_DEL:");
                 // Special handling of the delete key: if we currently are
                 // composing text for the user, we want to modify that instead
                 // of let the application to the delete itself.
@@ -475,10 +511,12 @@ public class SoftKeyboard extends InputMethodService
                 break;
 
             case KeyEvent.KEYCODE_ENTER:
+                Log.d(TAG, "onKeyDown: case KeyEvent.KEYCODE_ENTER:");
                 // Let the underlying text editor always handle these.
                 return false;
 
             default:
+                Log.d(TAG, "onKeyDown: default:");
                 // For all other keys, if we want to do transformations on
                 // text being entered with a hard keyboard, we need to process
                 // it and do the appropriate action.
@@ -519,6 +557,7 @@ public class SoftKeyboard extends InputMethodService
      */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyUp: ");
         // If we want to do transformations on text being entered with a hard
         // keyboard, we need to process the up events to update the meta key
         // state we are tracking.
@@ -536,10 +575,11 @@ public class SoftKeyboard extends InputMethodService
      * Helper function to commit any text being composed in to the editor.
      */
     private void commitTyped(InputConnection inputConnection) {
+        Log.d(TAG, "commitTyped: ");
         if (mComposing.length() > 0) {
-            inputConnection.commitText((mComposing+" "), mComposing.length());
+            inputConnection.commitText((mComposing + " "), mComposing.length());
             mComposing.setLength(0);
-            updateCandidates();
+//            updateCandidates();
         }
     }
 
@@ -548,6 +588,7 @@ public class SoftKeyboard extends InputMethodService
      * editor state.
      */
     private void updateShiftKeyState(EditorInfo attr) {
+        Log.d(TAG, "updateShiftKeyState: ");
         if (attr != null
                 && mInputView != null && mQwertyKeyboard == mInputView.getKeyboard()) {
             int caps = 0;
@@ -556,6 +597,7 @@ public class SoftKeyboard extends InputMethodService
                 caps = getCurrentInputConnection().getCursorCapsMode(attr.inputType);
             }
             mInputView.setShifted(mCapsLock || caps != 0);
+            Log.d(TAG, "updateShiftKeyState: ");
         }
     }
 
@@ -563,6 +605,7 @@ public class SoftKeyboard extends InputMethodService
      * Helper to determine if a given character code is alphabetic.
      */
     private boolean isAlphabet(int code) {
+        Log.d(TAG, "isAlphabet: ");
         if (Character.isLetter(code)) {
             return true;
         } else {
@@ -574,6 +617,7 @@ public class SoftKeyboard extends InputMethodService
      * Helper to send a key down / key up pair to the current editor.
      */
     private void keyDownUp(int keyEventCode) {
+        Log.d(TAG, "keyDownUp: ");
         getCurrentInputConnection().sendKeyEvent(
                 new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
         getCurrentInputConnection().sendKeyEvent(
@@ -584,31 +628,174 @@ public class SoftKeyboard extends InputMethodService
      * Helper to send a character to the editor as raw key events.
      */
     private void sendKey(int keyCode) {
+        Log.d(TAG, "sendKey: " + keyCode);
         switch (keyCode) {
             case '\n':
                 keyDownUp(KeyEvent.KEYCODE_ENTER);
                 break;
             default:
-                if (keyCode >= '0' && keyCode <= '9') {
-                    keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
-                } else {
-                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
+//                if (keyCode >= '0' && keyCode <= '9') {
+//                    keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
+//                } else {
+
+                switch (keyCode) {
+                    case 1:
+                        commit("\uD80C\uDFFA");//𓏺
+                        break;
+                    case 2:
+                        commit("\uD80C\uDFFB");//𓏻
+                        break;
+                    case 3:
+                        commit("\uD80C\uDFFC");//𓏼
+                        break;
+                    case 4:
+                        commit("\uD80C\uDFFD"); // 𓏽
+                        break;
+                    case 5:
+                        commit("\uD80C\uDFFE"); // 𓏾
+                        break;
+                    case 6:
+                        commit("\uD80C\uDFFF"); // 𓏿
+                        break;
+                    case 7:
+                        commit("\uD80D\uDC00"); // 𓐀
+                        break;
+                    case 8:
+                        commit("\uD80D\uDC01"); // 𓐁
+                        break;
+                    case 9:
+                        commit("\uD80D\uDC02"); // 𓐂
+                        break;
+                    case 11:
+                        commit("\uD80C\uDC0E"); // 𓈎
+                        break;
+                    case 12:
+                        commit("\uD80C\uDC71"); // 𓅱
+                        break;
+                    case 13:
+                        commit("\uD80C\uDC0D"); // 𓂝
+                        break;
+                    case 14:
+                        commit("\uD80C\uDC0B"); // 𓂋
+                        break;
+                    case 15:
+                        commit("\uD80C\uDCCF"); // 𓏏
+                        break;
+                    case 16:
+                        commit("\uD80C\uDC8C"); // 𓇌
+                        break;
+                    case 17:
+                        commit("\uD80C\uDFAF"); // 𓏲
+                        break;
+                    case 18:
+                        commit("\uD80C\uDC8C"); // 𓇌
+                        break;
+                    case 19:
+                        commit("\uD80C\uDFAF"); // 𓏯
+                        break;
+                    case 20:
+                        commit("\uD80C\uDCAA"); // 𓊪
+                        break;
+                    case 21:
+                        commit("\uD80C\uDC3F"); // 𓄿
+                        break;
+                    case 22:
+                        commit("\uD80C\uDCB4"); // 𓋴
+                        break;
+                    case 23:
+                        commit("\uD80C\uDC27"); // 𓂧
+                        break;
+                    case 24:
+                        commit("\uD80C\uDC51"); // 𓆑
+                        break;
+                    case 25:
+                        commit("\uD80C\uDCF9"); // 𓎼
+                        break;
+                    case 26:
+                        commit("\uD80C\uDC14"); // 𓉔
+                        break;
+                    case 27:
+                        commit("\uD80C\uDC53"); // 𓆓
+                        break;
+                    case 28:
+                        commit("\uD80C\uDC61"); // 𓎡
+                        break;
+                    case 29:
+                        commit("\uD80C\uDCAD"); // 𓃭
+                        break;
+                    case 30:
+                        commit("\uD80C\uDC21"); // 𓈡
+                        break;
+                    case 31:
+                        commit("\uD80C\uDC83"); // 𓊃
+                        break;
+                    case 32:
+                        commit("\uD80C\uDCB7"); // 𓆷
+                        break;
+                    case 33:
+                        commit("\uD80D\uDC0D"); // 𓐍
+                        break;
+                    case 34:
+                        commit("\uD80C\uDDBB"); // 𓎛
+                        break;
+                    case 35:
+                        commit("\uD80C\uDC80"); // 𓃀
+                        break;
+                    case 36:
+                        commit("\uD80C\uDC16"); // 𓈖
+                        break;
+                    case 37:
+                        commit("\uD80C\uDC53"); // 𓅓
+                        break;
+                    case 38:
+                        commit("\uD80C\uDD7F"); // 𓍿
+                        break;
+                    case 39:
+                        // KEYBOARD CHANGE
+                        mInputMethodManager.showInputMethodPicker();
+                        break;
+                    case 40:
+                        commit(" "); // SPACE BAR
+                        break;
+                    case 41:
+                        commit("."); // DOT
+                        break;
+                    case 42:
+                        // FACEBOOK
+                        Uri uri = Uri.parse("http://www.google.com");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        break;
+
+
                 }
+//                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
+//                }
                 break;
         }
+    }
+
+    private void commit(String value) {
+        getCurrentInputConnection().commitText(value, 1);
     }
 
     // Implementation of KeyboardViewListener
 
     public void onKey(int primaryCode, int[] keyCodes) {
-        if (isWordSeparator(primaryCode)) {
-            // Handle separator
-            if (mComposing.length() > 0) {
-                commitTyped(getCurrentInputConnection());
-            }
-            sendKey(primaryCode);
-            updateShiftKeyState(getCurrentInputEditorInfo());
-        } else if (primaryCode == Keyboard.KEYCODE_DELETE) {
+        Log.d(TAG, "onKey: ");
+        if (primaryCode == Keyboard.KEYCODE_DELETE) {
+            handleBackspace();
+            return;
+        }
+
+//        if (isWordSeparator(primaryCode)) {
+        // Handle separator
+//            if (mComposing.length() > 0) {
+//                commitTyped(getCurrentInputConnection());
+//            }
+        sendKey(primaryCode);
+//            updateShiftKeyState(getCurrentInputEditorInfo());
+        /*if (primaryCode == Keyboard.KEYCODE_DELETE) {
             handleBackspace();
         } else if (primaryCode == Keyboard.KEYCODE_SHIFT) {
             handleShift();
@@ -631,10 +818,11 @@ public class SoftKeyboard extends InputMethodService
             }
         } else {
             handleCharacter(primaryCode, keyCodes);
-        }
+        }*/
     }
 
     public void onText(CharSequence text) {
+        Log.d(TAG, "onText: ");
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
         ic.beginBatchEdit();
@@ -652,8 +840,11 @@ public class SoftKeyboard extends InputMethodService
      * candidates.
      */
     private void updateCandidates() {
+        Log.d(TAG, "updateCandidates: ");
         if (!mCompletionOn) {
+            Log.d(TAG, "updateCandidates: if (!mCompletionOn) {");
             if (mComposing.length() > 0) {
+                Log.d(TAG, "updateCandidates: if (mComposing.length() > 0) {");
                 ArrayList<String> list = new ArrayList<>();
                 list.add(mComposing.toString());
                 getFilter().filter(mComposing.toString());
@@ -663,8 +854,9 @@ public class SoftKeyboard extends InputMethodService
                     dictionaryAll = (ArrayList<String>) dictionary.stream().filter(word -> word.contains(mComposing.toString())).collect(Collectors.toList());
                 }
                 setSuggestions(dictionaryAll, true, true);*/
-               // new FilterDictionary().execute(String.valueOf(mComposing));
+                // new FilterDictionary().execute(String.valueOf(mComposing));
             } else {
+                Log.d(TAG, "updateCandidates: } else {");
                 setCandidatesViewShown(false);
                 setSuggestions(null, false, false);
             }
@@ -673,13 +865,15 @@ public class SoftKeyboard extends InputMethodService
 
     public void setSuggestions(List<String> suggestions, boolean completions,
                                boolean typedWordValid) {
+        Log.d(TAG, "setSuggestions: ");
         if (mCandidateView != null) {
-            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
-            if (suggestions != null && suggestions.size() > 0) {
-                setCandidatesViewShown(true);
-            } else if (isExtractViewShown()) {
-                setCandidatesViewShown(false);
-            }
+            Log.d(TAG, "setSuggestions: if (mCandidateView != null) {");
+//            mCandidateView.setSuggestions(suggestions, completions, typedWordValid);
+//            if (suggestions != null && suggestions.size() > 0) {
+//                setCandidatesViewShown(true);
+//            } else if (isExtractViewShown()) {
+            setCandidatesViewShown(false);
+//            }
         }
 
     }
@@ -729,10 +923,12 @@ public class SoftKeyboard extends InputMethodService
         }
         if (isAlphabet(primaryCode) && mPredictionOn) {
             mComposing.append((char) primaryCode);
+            Log.d(TAG, "handleCharacter: isAlphabet");
             getCurrentInputConnection().setComposingText(mComposing, 1);
             updateShiftKeyState(getCurrentInputEditorInfo());
             updateCandidates();
         } else {
+            Log.d(TAG, "handleCharacter: } else {");
             getCurrentInputConnection().commitText(
                     String.valueOf((char) primaryCode), 1);
         }
@@ -786,13 +982,13 @@ public class SoftKeyboard extends InputMethodService
     public void pickSuggestionManually(int index) {
         Log.d("Checking123", "Picked index " + index);
         String s = dictionaryAll.get(index);
-        Log.d("Checking123", "Picked " +s);
+        Log.d("Checking123", "Picked " + s);
 
-        if (!mCompletionOn && index >= 0){
-            if (index == 0){
-                getCurrentInputConnection().commitText((s+" "), 1);
+        if (!mCompletionOn && index >= 0) {
+            if (index == 0) {
+                getCurrentInputConnection().commitText((s + " "), 1);
             } else {
-                getCurrentInputConnection().commitText((s+" "), index);
+                getCurrentInputConnection().commitText((s + " "), index);
             }
 
             if (mCandidateView != null) {
@@ -866,7 +1062,7 @@ public class SoftKeyboard extends InputMethodService
         return filter;
     }
 
-    public class FilterDictionary extends AsyncTask<String, String, String>{
+    public class FilterDictionary extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
@@ -878,7 +1074,7 @@ public class SoftKeyboard extends InputMethodService
         @Override
         protected String doInBackground(String... strings) {
             ArrayList<String> filterList = new ArrayList<>();
-            if (strings.length<=0) {
+            if (strings.length <= 0) {
                 filterList.addAll(dictionary);
             } else {
                 for (String listModel : dictionary) {
@@ -942,7 +1138,7 @@ public class SoftKeyboard extends InputMethodService
 
                 boolean value = myAppObject.getBoolean("value");
                 String msg = myAppObject.getString("msg");
-                Log.d("VALUE 123", ""+value);
+                Log.d("VALUE 123", "" + value);
                 if (!value) {
                     mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     mWordSeparators = getResources().getString(R.string.word_separators);
