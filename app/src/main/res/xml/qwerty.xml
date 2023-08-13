@@ -4,9 +4,8 @@
     android:horizontalGap="0px"
     android:verticalGap="0px"
     android:keyHeight="@dimen/key_height">
-<!--android:keyEdgeFlags="left"/>-->
     <Row>
-        <Key android:codes="1" android:keyLabel="𓏺"/>
+        <Key android:codes="1" android:keyLabel="𓏺" android:keyEdgeFlags="left" />
         <Key android:codes="2" android:keyLabel="𓏻"/>
         <Key android:codes="3" android:keyLabel="𓏼"/>
         <Key android:codes="4" android:keyLabel="𓏽"/>
@@ -15,7 +14,7 @@
         <Key android:codes="7" android:keyLabel="𓐀"/>
         <Key android:codes="8" android:keyLabel="𓐁"/>
         <Key android:codes="9" android:keyLabel="𓐂"/>
-        <Key android:codes="10" android:keyLabel="𓃉"/>
+        <Key android:codes="101" android:keyLabel="𓃉" android:keyEdgeFlags="right"/>
     </Row>
 <!--    android:keyEdgeFlags="right"/>-->
 <!--    android:horizontalGap="5%p"-->

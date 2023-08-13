@@ -256,7 +256,7 @@ public class SoftKeyboard extends InputMethodService
         mPredictionOn = false;
         mCompletionOn = false;
         mCompletions = null;
-
+/*
         // We are now going to initialize our state based on the type of
         // text being edited.
         switch (attribute.inputType & InputType.TYPE_MASK_CLASS) {
@@ -316,13 +316,13 @@ public class SoftKeyboard extends InputMethodService
                 updateShiftKeyState(attribute);
                 break;
 
-            default:
-                // For all unknown input types, default to the alphabetic
-                // keyboard with no special features.
-                mCurKeyboard = mQwertyKeyboard;
-                updateShiftKeyState(attribute);
-                Log.d(TAG, "onStartInput: default:");
-        }
+            default:*/
+        // For all unknown input types, default to the alphabetic
+        // keyboard with no special features.
+        mCurKeyboard = mQwertyKeyboard;
+        updateShiftKeyState(attribute);
+        Log.d(TAG, "onStartInput: default:");
+//        }
 
         // Update the label on the enter key, depending on what the application
         // says it will do.
@@ -629,150 +629,182 @@ public class SoftKeyboard extends InputMethodService
      */
     private void sendKey(int keyCode) {
         Log.d(TAG, "sendKey: " + keyCode);
-        switch (keyCode) {
+        /*switch (keyCode) {
             case '\n':
                 keyDownUp(KeyEvent.KEYCODE_ENTER);
                 break;
-            default:
+            default:*/
 //                if (keyCode >= '0' && keyCode <= '9') {
 //                    keyDownUp(keyCode - '0' + KeyEvent.KEYCODE_0);
 //                } else {
 
-                switch (keyCode) {
-                    case 1:
-                        commit("\uD80C\uDFFA");//𓏺
-                        break;
-                    case 2:
-                        commit("\uD80C\uDFFB");//𓏻
-                        break;
-                    case 3:
-                        commit("\uD80C\uDFFC");//𓏼
-                        break;
-                    case 4:
-                        commit("\uD80C\uDFFD"); // 𓏽
-                        break;
-                    case 5:
-                        commit("\uD80C\uDFFE"); // 𓏾
-                        break;
-                    case 6:
-                        commit("\uD80C\uDFFF"); // 𓏿
-                        break;
-                    case 7:
-                        commit("\uD80D\uDC00"); // 𓐀
-                        break;
-                    case 8:
-                        commit("\uD80D\uDC01"); // 𓐁
-                        break;
-                    case 9:
-                        commit("\uD80D\uDC02"); // 𓐂
-                        break;
-                    case 11:
-                        commit("\uD80C\uDC0E"); // 𓈎
-                        break;
-                    case 12:
-                        commit("\uD80C\uDC71"); // 𓅱
-                        break;
-                    case 13:
-                        commit("\uD80C\uDC0D"); // 𓂝
-                        break;
-                    case 14:
-                        commit("\uD80C\uDC0B"); // 𓂋
-                        break;
-                    case 15:
-                        commit("\uD80C\uDCCF"); // 𓏏
-                        break;
-                    case 16:
-                        commit("\uD80C\uDC8C"); // 𓇌
-                        break;
-                    case 17:
-                        commit("\uD80C\uDFAF"); // 𓏲
-                        break;
-                    case 18:
-                        commit("\uD80C\uDC8C"); // 𓇌
-                        break;
-                    case 19:
-                        commit("\uD80C\uDFAF"); // 𓏯
-                        break;
-                    case 20:
-                        commit("\uD80C\uDCAA"); // 𓊪
-                        break;
-                    case 21:
-                        commit("\uD80C\uDC3F"); // 𓄿
-                        break;
-                    case 22:
-                        commit("\uD80C\uDCB4"); // 𓋴
-                        break;
-                    case 23:
-                        commit("\uD80C\uDC27"); // 𓂧
-                        break;
-                    case 24:
-                        commit("\uD80C\uDC51"); // 𓆑
-                        break;
-                    case 25:
-                        commit("\uD80C\uDCF9"); // 𓎼
-                        break;
-                    case 26:
-                        commit("\uD80C\uDC14"); // 𓉔
-                        break;
-                    case 27:
-                        commit("\uD80C\uDC53"); // 𓆓
-                        break;
-                    case 28:
-                        commit("\uD80C\uDC61"); // 𓎡
-                        break;
-                    case 29:
-                        commit("\uD80C\uDCAD"); // 𓃭
-                        break;
-                    case 30:
-                        commit("\uD80C\uDC21"); // 𓈡
-                        break;
-                    case 31:
-                        commit("\uD80C\uDC83"); // 𓊃
-                        break;
-                    case 32:
-                        commit("\uD80C\uDCB7"); // 𓆷
-                        break;
-                    case 33:
-                        commit("\uD80D\uDC0D"); // 𓐍
-                        break;
-                    case 34:
-                        commit("\uD80C\uDDBB"); // 𓎛
-                        break;
-                    case 35:
-                        commit("\uD80C\uDC80"); // 𓃀
-                        break;
-                    case 36:
-                        commit("\uD80C\uDC16"); // 𓈖
-                        break;
-                    case 37:
-                        commit("\uD80C\uDC53"); // 𓅓
-                        break;
-                    case 38:
-                        commit("\uD80C\uDD7F"); // 𓍿
-                        break;
-                    case 39:
-                        // KEYBOARD CHANGE
-                        mInputMethodManager.showInputMethodPicker();
-                        break;
-                    case 40:
-                        commit(" "); // SPACE BAR
-                        break;
-                    case 41:
-                        commit("."); // DOT
-                        break;
-                    case 42:
-                        // FACEBOOK
-                        Uri uri = Uri.parse("http://www.google.com");
-                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                        startActivity(intent);
-                        break;
+        switch (keyCode) {
+            case 1:
+                commit("\uD80C\uDFFA");//𓏺
+                break;
+            case 2:
+                commit("\uD80C\uDFFB");//𓏻
+                break;
+            case 3:
+                commit("\uD80C\uDFFC");//𓏼
+                break;
+            case 4:
+                commit("\uD80C\uDFFD"); // 𓏽
+                break;
+            case 5:
+                commit("\uD80C\uDFFE"); // 𓏾
+                break;
+            case 6:
+                commit("\uD80C\uDFFF"); // 𓏿
+                break;
+            case 7:
+                commit("\uD80D\uDC00"); // 𓐀
+                break;
+            case 8:
+                commit("\uD80D\uDC01"); // 𓐁
+                break;
+            case 9:
+                commit("\uD80D\uDC02"); // 𓐂
+                break;
+            case 101:
+                commit("\uD80C\uDCC9"); // 𓃉
+//                commit("\uD808\uDC09"); // 𓃉
+                break;
+            case 11:
+                commit("\uD80C\uDE0E"); // 𓈎
+//                commit("\uD80C\uDC0E"); // 𓈎
+                break;
+            case 12:
+                commit("\uD80C\uDD71"); // 𓅱
+//                commit("\uD80C\uDC71"); // 𓅱
+                break;
+            case 13:
+                commit("\uD80C\uDC9D"); // 𓂝
+//                commit("\uD80C\uDC0D"); // 𓂝
+                break;
+            case 14:
+                commit("\uD80C\uDC8B"); // 𓂋
+//                commit("\uD80C\uDC0B"); // 𓂋
+                break;
+            case 15:
+                commit("\uD80C\uDFCF"); // 𓏏
+//                commit("\uD80C\uDCCF"); // 𓏏
+                break;
+            case 16:
+                commit("\uD80C\uDDCC"); // 𓇌
+//                commit("\uD80C\uDC8C"); // 𓇌
+                break;
+            case 17:
+                commit("\uD80C\uDFAF"); // 𓏲
+//                commit("\uD80C\uDFAF"); // 𓏲
+                break;
+            case 18:
+                commit("\uD80C\uDC8C"); // 𓇌
+//                commit("\uD80C\uDC8C"); // 𓇌
+                break;
+            case 19:
+                commit("\uD80C\uDFAF"); // 𓏯
+//                commit("\uD80C\uDFAF"); // 𓏯
+                break;
+            case 20:
+                commit("\uD80C\uDCAA"); // 𓊪
+//                commit("\uD80C\uDCAA"); // 𓊪
+                break;
+            case 21:
+                commit("\uD80C\uDC3F"); // 𓄿
+//                commit("\uD80C\uDC3F"); // 𓄿
+                break;
+            case 22:
+                commit("\uD80C\uDCB4"); // 𓋴
+//                commit("\uD80C\uDCB4"); // 𓋴
+                break;
+            case 23:
+                commit("\uD80C\uDC27"); // 𓂧
+//                commit("\uD80C\uDC27"); // 𓂧
+                break;
+            case 24:
+                commit("\uD80C\uDC51"); // 𓆑
+//                commit("\uD80C\uDC51"); // 𓆑
+                break;
+            case 25:
+                commit("\uD80C\uDCF9"); // 𓎼
+//                commit("\uD80C\uDCF9"); // 𓎼
+                break;
+            case 26:
+                commit("\uD80C\uDC14"); // 𓉔
+//                commit("\uD80C\uDC14"); // 𓉔
+                break;
+            case 27:
+                commit("\uD80C\uDC53"); // 𓆓
+//                commit("\uD80C\uDC53"); // 𓆓
+                break;
+            case 28:
+                commit("\uD80C\uDC61"); // 𓎡
+//                commit("\uD80C\uDC61"); // 𓎡
+                break;
+            case 29:
+                commit("\uD80C\uDCAD"); // 𓃭
+//                commit("\uD80C\uDCAD"); // 𓃭
+                break;
+            case 30:
+                commit("\uD80C\uDC21"); // 𓈡
+//                commit("\uD80C\uDC21"); // 𓈡
+                break;
+            case 31:
+                commit("\uD80C\uDC83"); // 𓊃
+//                commit("\uD80C\uDC83"); // 𓊃
+                break;
+            case 32:
+                commit("\uD80C\uDCB7"); // 𓆷
+//                commit("\uD80C\uDCB7"); // 𓆷
+                break;
+            case 33:
+                commit("\uD80D\uDC0D"); // 𓐍
+//                commit("\uD80D\uDC0D"); // 𓐍
+                break;
+            case 34:
+                commit("\uD80C\uDDBB"); // 𓎛
+//                commit("\uD80C\uDDBB"); // 𓎛
+                break;
+            case 35:
+                commit("\uD80C\uDC80"); // 𓃀
+//                commit("\uD80C\uDC80"); // 𓃀
+                break;
+            case 36:
+                commit("\uD80C\uDC16"); // 𓈖
+//                commit("\uD80C\uDC16"); // 𓈖
+                break;
+            case 37:
+                commit("\uD80C\uDC53"); // 𓅓
+//                commit("\uD80C\uDC53"); // 𓅓
+                break;
+            case 38:
+                commit("\uD80C\uDD7F"); // 𓍿
+//                commit("\uD80C\uDD7F"); // 𓍿
+                break;
+            case 39:
+                // KEYBOARD CHANGE
+                mInputMethodManager.showInputMethodPicker();
+                break;
+            case 40:
+                commit(" "); // SPACE BAR
+                break;
+            case 41:
+                commit("."); // DOT
+                break;
+            case 42:
+                // FACEBOOK
+                Uri uri = Uri.parse("http://www.google.com");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                break;
 
 
-                }
+        }
 //                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);
 //                }
-                break;
-        }
+//                break;
+//        }
     }
 
     private void commit(String value) {
