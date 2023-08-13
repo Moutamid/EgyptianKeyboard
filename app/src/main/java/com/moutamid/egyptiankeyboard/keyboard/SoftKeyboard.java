@@ -801,6 +801,35 @@ public class SoftKeyboard extends InputMethodService
                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
+            case 44:
+                // SHIFT KEY
+                if (mInputView == null) {
+                    return;
+                }
+
+                Keyboard currentKeyboard = mInputView.getKeyboard();
+                if (currentKeyboard == mQwertyKeyboard) {
+                    mSymbolsShiftedKeyboard.setShifted(false);
+                    setLatinKeyboard(mSymbolsKeyboard);
+                    mSymbolsKeyboard.setShifted(false);
+                } else {
+                    mSymbolsShiftedKeyboard.setShifted(false);
+                    setLatinKeyboard(mQwertyKeyboard);
+                    mSymbolsKeyboard.setShifted(false);
+                }
+                break;
+            case 45:
+                commit("\uD80C\uDDA3"); // 𓆣
+                break;
+            case 46:
+                commit("\uD80C\uDE51"); // 𓉑
+                break;
+            case 47:
+                commit("\uD80C\uDEF9"); // 𓋹
+                break;
+            case 48:
+                commit("\uD80C\uDC00"); // 𓀀
+                break;
 
 
         }
@@ -948,6 +977,7 @@ public class SoftKeyboard extends InputMethodService
             setLatinKeyboard(mSymbolsKeyboard);
             mSymbolsKeyboard.setShifted(false);
         }
+
     }
 
     private void handleCharacter(int primaryCode, int[] keyCodes) {
