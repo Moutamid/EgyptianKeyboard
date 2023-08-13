@@ -1,11 +1,18 @@
 package com.moutamid.egyptiankeyboard.keyboard;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.Keyboard.Key;
 import android.inputmethodservice.KeyboardView;
 import android.util.AttributeSet;
 import android.view.inputmethod.InputMethodSubtype;
+
+import com.moutamid.egyptiankeyboard.R;
+
+import java.util.List;
 
 public class LatinKeyboardView extends KeyboardView {
 
@@ -13,91 +20,146 @@ public class LatinKeyboardView extends KeyboardView {
     // TODO: Move this into android.inputmethodservice.Keyboard
     static final int KEYCODE_LANGUAGE_SWITCH = -101;
 
+    Context context;
+
     public LatinKeyboardView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
     }
 
     public LatinKeyboardView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
     }
 
-    /*
-        @Override
-        public void onDraw(Canvas canvas) {
-            super.onDraw(canvas);
-            String color = Stash.getString("color", "red");
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.input, null, false);
-            LatinKeyboardView keyboardView = view.findViewById(R.id.keyboard);
-            LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
-            Log.d("KeyRatio", "color : " + color);
-            Log.d("KeyRatio", "view : " + (view == null));
-            Log.d("KeyRatio", "keyboardview : " + (keyboardView));
+    /*@Override
+    public void onDraw(Canvas canvas) {
+        List<Key> keys = getKeyboard().getKeys();
 
-            List<Key> keys = getKeyboard().getKeys();
-            for (Key key : keys) {
-                if (color.equals("red")) {
-                    Log.e("KEY", "Drawing key with code " + key.codes[0]);
-                    Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.red_bg);
-                    dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                    dr.draw(canvas);
-                } else if (color.equals("blue")) {
-                    Log.e("KEY", "Drawing key with code " + key.codes[0]);
-                    Drawable  dr = (Drawable ) getResources().getDrawable(R.drawable.blue_bg);
-                    dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                    dr.draw(canvas);
+        for (Key key : keys) {
+            int[] drawableState = key.getCurrentDrawableState();
 
-                } else if (color.equals("green")) {
+            // Customize background color based on key codes
+            int backgroundColor = Color.TRANSPARENT; // Default background color
+            if (key.codes[0] == 44) {
+                backgroundColor = getResources().getColor(R.color.red);
+                // Set background color
+                key.icon.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
 
-                    Log.e("KEY", "Drawing key with code " + key.codes[0]);
-                    Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.green_bg);
-                    dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
-                    dr.draw(canvas);
-                }
+                // Draw key background
+                key.icon.setBounds(0, 0, key.width, key.height);
+                key.icon.setState(drawableState);
+                key.icon.draw(canvas);
+            } else if (key.codes[0] == 43) {
+                backgroundColor = getResources().getColor(R.color.blue);
+                // Set background color
+                key.icon.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
 
-                Paint paint = new Paint();
-                paint.setTextAlign(Paint.Align.CENTER);
-                paint.setTextSize(48);
-                paint.setColor(Color.WHITE);
+                // Draw key background
+                key.icon.setBounds(0, 0, key.width, key.height);
+                key.icon.setState(drawableState);
+                key.icon.draw(canvas);
+            } else if (key.codes[0] == 39) {
+                backgroundColor = getResources().getColor(R.color.green);
+                // Set background color
+                key.icon.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
 
-                if (key.label != null) {
-                    if (SoftKeyboard.mCapsLock){
-                        canvas.drawText(key.label.toString().toUpperCase(), key.x + (key.width / 2),
-                                key.y + (key.height / 2), paint);
-                    } else {
-                        canvas.drawText(key.label.toString().toLowerCase(), key.x + (key.width / 2),
-                                key.y + (key.height / 2), paint);
-                    }
+                // Draw key background
+                key.icon.setBounds(0, 0, key.width, key.height);
+                key.icon.setState(drawableState);
+                key.icon.draw(canvas);
+            } else if (key.codes[0] == 42) {
+                backgroundColor = getResources().getColor(R.color.green);
+                // Set background color
+                key.icon.setColorFilter(backgroundColor, PorterDuff.Mode.SRC_IN);
 
-                } else {
-
-                    //key.icon.setBounds(key.x, key.y, key.x+(key.width/2), key.y+(key.height/2));
-
-                    Drawable d = key.icon;
-                    Bitmap icon;
-                    if (d instanceof BitmapDrawable) {
-                       icon = ((BitmapDrawable)d).getBitmap();
-                        int x = (key.x - icon.getWidth())/2;
-                        int y = (key.y - icon.getHeight())/2;
-                        canvas.drawBitmap(icon, key.x+(key.width/3), key.y+(key.height/3), null);
-                    }
-
-
-    //                Log.d("KeyRatio" , "key : " + key.toString());
-    //                Log.d("KeyRatio" , "centerX : " + centreX);
-    //                Log.d("KeyRatio" , "centreY : " + centreY);
-    //                Log.d("KeyRatio" , "key.width : " + key.width);
-    //                Log.d("KeyRatio" , "key.height : " + key.height);
-    //                Log.d("KeyRatio" , "key.x : " + key.x);
-    //                Log.d("KeyRatio" , "key.y : " + key.y);
-
-
-                   //key.icon.draw(canvas);
-                }
-
+                // Draw key background
+                key.icon.setBounds(0, 0, key.width, key.height);
+                key.icon.setState(drawableState);
+                key.icon.draw(canvas);
             }
         }
+    }*/
 
-        */
+
+
+    /*
+                @Override
+                public void onDraw(Canvas canvas) {
+                    super.onDraw(canvas);
+                    String color = Stash.getString("color", "red");
+                    View view = LayoutInflater.from(getContext()).inflate(R.layout.input, null, false);
+                    LatinKeyboardView keyboardView = view.findViewById(R.id.keyboard);
+                    LatinKeyboard keyboard = (LatinKeyboard)getKeyboard();
+                    Log.d("KeyRatio", "color : " + color);
+                    Log.d("KeyRatio", "view : " + (view == null));
+                    Log.d("KeyRatio", "keyboardview : " + (keyboardView));
+
+                    List<Key> keys = getKeyboard().getKeys();
+                    for (Key key : keys) {
+                        if (color.equals("red")) {
+                            Log.e("KEY", "Drawing key with code " + key.codes[0]);
+                            Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.red_bg);
+                            dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                            dr.draw(canvas);
+                        } else if (color.equals("blue")) {
+                            Log.e("KEY", "Drawing key with code " + key.codes[0]);
+                            Drawable  dr = (Drawable ) getResources().getDrawable(R.drawable.blue_bg);
+                            dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                            dr.draw(canvas);
+
+                        } else if (color.equals("green")) {
+
+                            Log.e("KEY", "Drawing key with code " + key.codes[0]);
+                            Drawable dr = (Drawable ) getResources().getDrawable(R.drawable.green_bg);
+                            dr.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+                            dr.draw(canvas);
+                        }
+
+                        Paint paint = new Paint();
+                        paint.setTextAlign(Paint.Align.CENTER);
+                        paint.setTextSize(48);
+                        paint.setColor(Color.WHITE);
+
+                        if (key.label != null) {
+                            if (SoftKeyboard.mCapsLock){
+                                canvas.drawText(key.label.toString().toUpperCase(), key.x + (key.width / 2),
+                                        key.y + (key.height / 2), paint);
+                            } else {
+                                canvas.drawText(key.label.toString().toLowerCase(), key.x + (key.width / 2),
+                                        key.y + (key.height / 2), paint);
+                            }
+
+                        } else {
+
+                            //key.icon.setBounds(key.x, key.y, key.x+(key.width/2), key.y+(key.height/2));
+
+                            Drawable d = key.icon;
+                            Bitmap icon;
+                            if (d instanceof BitmapDrawable) {
+                               icon = ((BitmapDrawable)d).getBitmap();
+                                int x = (key.x - icon.getWidth())/2;
+                                int y = (key.y - icon.getHeight())/2;
+                                canvas.drawBitmap(icon, key.x+(key.width/3), key.y+(key.height/3), null);
+                            }
+
+
+            //                Log.d("KeyRatio" , "key : " + key.toString());
+            //                Log.d("KeyRatio" , "centerX : " + centreX);
+            //                Log.d("KeyRatio" , "centreY : " + centreY);
+            //                Log.d("KeyRatio" , "key.width : " + key.width);
+            //                Log.d("KeyRatio" , "key.height : " + key.height);
+            //                Log.d("KeyRatio" , "key.x : " + key.x);
+            //                Log.d("KeyRatio" , "key.y : " + key.y);
+
+
+                           //key.icon.draw(canvas);
+                        }
+
+                    }
+                }
+
+                */
     @Override
     protected boolean onLongPress(Key key) {
         if (key.codes[0] == Keyboard.KEYCODE_CANCEL) {

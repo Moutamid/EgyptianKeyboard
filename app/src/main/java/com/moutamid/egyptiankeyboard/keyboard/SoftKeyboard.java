@@ -1,5 +1,7 @@
 package com.moutamid.egyptiankeyboard.keyboard;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -695,67 +697,67 @@ public class SoftKeyboard extends InputMethodService
 //                commit("\uD80C\uDC8C"); // 𓇌
                 break;
             case 17:
-                commit("\uD80C\uDFAF"); // 𓏲
+                commit("\uD80C\uDFF2"); // 𓏲
 //                commit("\uD80C\uDFAF"); // 𓏲
                 break;
             case 18:
-                commit("\uD80C\uDC8C"); // 𓇌
+                commit("\uD80C\uDDCC"); // 𓇌
 //                commit("\uD80C\uDC8C"); // 𓇌
                 break;
             case 19:
-                commit("\uD80C\uDFAF"); // 𓏯
+                commit("\uD80C\uDFEF"); // 𓏯
 //                commit("\uD80C\uDFAF"); // 𓏯
                 break;
             case 20:
-                commit("\uD80C\uDCAA"); // 𓊪
+                commit("\uD80C\uDEAA"); // 𓊪
 //                commit("\uD80C\uDCAA"); // 𓊪
                 break;
             case 21:
-                commit("\uD80C\uDC3F"); // 𓄿
+                commit("\uD80C\uDD3F"); // 𓄿
 //                commit("\uD80C\uDC3F"); // 𓄿
                 break;
             case 22:
-                commit("\uD80C\uDCB4"); // 𓋴
+                commit("\uD80C\uDEF4"); // 𓋴
 //                commit("\uD80C\uDCB4"); // 𓋴
                 break;
             case 23:
-                commit("\uD80C\uDC27"); // 𓂧
+                commit("\uD80C\uDCA7"); // 𓂧
 //                commit("\uD80C\uDC27"); // 𓂧
                 break;
             case 24:
-                commit("\uD80C\uDC51"); // 𓆑
+                commit("\uD80C\uDD91"); // 𓆑
 //                commit("\uD80C\uDC51"); // 𓆑
                 break;
             case 25:
-                commit("\uD80C\uDCF9"); // 𓎼
+                commit("\uD80C\uDFBC"); // 𓎼
 //                commit("\uD80C\uDCF9"); // 𓎼
                 break;
             case 26:
-                commit("\uD80C\uDC14"); // 𓉔
+                commit("\uD80C\uDE54"); // 𓉔
 //                commit("\uD80C\uDC14"); // 𓉔
                 break;
             case 27:
-                commit("\uD80C\uDC53"); // 𓆓
+                commit("\uD80C\uDD93"); // 𓆓
 //                commit("\uD80C\uDC53"); // 𓆓
                 break;
             case 28:
-                commit("\uD80C\uDC61"); // 𓎡
+                commit("\uD80C\uDFA1"); // 𓎡
 //                commit("\uD80C\uDC61"); // 𓎡
                 break;
             case 29:
-                commit("\uD80C\uDCAD"); // 𓃭
+                commit("\uD80C\uDCED"); // 𓃭
 //                commit("\uD80C\uDCAD"); // 𓃭
                 break;
             case 30:
-                commit("\uD80C\uDC21"); // 𓈡
+                commit("\uD80C\uDE21"); // 𓈡
 //                commit("\uD80C\uDC21"); // 𓈡
                 break;
             case 31:
-                commit("\uD80C\uDC83"); // 𓊃
+                commit("\uD80C\uDE83"); // 𓊃
 //                commit("\uD80C\uDC83"); // 𓊃
                 break;
             case 32:
-                commit("\uD80C\uDCB7"); // 𓆷
+                commit("\uD80C\uDDB7"); // 𓆷
 //                commit("\uD80C\uDCB7"); // 𓆷
                 break;
             case 33:
@@ -763,23 +765,23 @@ public class SoftKeyboard extends InputMethodService
 //                commit("\uD80D\uDC0D"); // 𓐍
                 break;
             case 34:
-                commit("\uD80C\uDDBB"); // 𓎛
+                commit("\uD80C\uDF9B"); // 𓎛
 //                commit("\uD80C\uDDBB"); // 𓎛
                 break;
             case 35:
-                commit("\uD80C\uDC80"); // 𓃀
+                commit("\uD80C\uDCC0"); // 𓃀
 //                commit("\uD80C\uDC80"); // 𓃀
                 break;
             case 36:
-                commit("\uD80C\uDC16"); // 𓈖
+                commit("\uD80C\uDE16"); // 𓈖
 //                commit("\uD80C\uDC16"); // 𓈖
                 break;
             case 37:
-                commit("\uD80C\uDC53"); // 𓅓
+                commit("\uD80C\uDD53"); // 𓅓
 //                commit("\uD80C\uDC53"); // 𓅓
                 break;
             case 38:
-                commit("\uD80C\uDD7F"); // 𓍿
+                commit("\uD80C\uDF7F"); // 𓍿
 //                commit("\uD80C\uDD7F"); // 𓍿
                 break;
             case 39:
@@ -796,6 +798,7 @@ public class SoftKeyboard extends InputMethodService
                 // FACEBOOK
                 Uri uri = Uri.parse("http://www.google.com");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
 
