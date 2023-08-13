@@ -810,6 +810,9 @@ public class SoftKeyboard extends InputMethodService
                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
+            case 43:
+                handleBackspace();
+                break;
             case 44:
                 // SHIFT KEY
                 if (mInputView == null) {
@@ -856,10 +859,10 @@ public class SoftKeyboard extends InputMethodService
 
     public void onKey(int primaryCode, int[] keyCodes) {
         Log.d(TAG, "onKey: ");
-        if (primaryCode == Keyboard.KEYCODE_DELETE) {
+        /*if (primaryCode == Keyboard.KEYCODE_DELETE) {
             handleBackspace();
             return;
-        }
+        }*/
 
 //        if (isWordSeparator(primaryCode)) {
         // Handle separator
