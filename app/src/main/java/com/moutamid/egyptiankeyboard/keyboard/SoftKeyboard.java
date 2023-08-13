@@ -29,9 +29,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.moutamid.egyptiankeyboard.R;
+import com.moutamid.egyptiankeyboard.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -185,22 +187,29 @@ public class SoftKeyboard extends InputMethodService
     public View onCreateInputView() {
         Log.d(TAG, "onCreateInputView: ");
         // Constants.checkApp((Activity) getApplicationContext());
-        String color = Stash.getString("color", "red");
+//        String color = Stash.getString("color", "red");
         // mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
-        if (color.equals("red")) {
-            Log.d(TAG, "onCreateInputView: red");
+//        if (color.equals("red")) {
+//            Log.d(TAG, "onCreateInputView: red");
+        if (Stash.getBoolean(Constants.ERROR_VALUE, false)) {
+            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.error_board, null, false);
+            Toast.makeText(getApplicationContext(), Stash.getString(Constants.ERROR_MSG, "ERROR"), Toast.LENGTH_SHORT).show();
+        } else {
             mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.input, null, false);
-        } else if (color.equals("blue")) {
-            Log.d(TAG, "onCreateInputView: blue");
-            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
-        } else if (color.equals("green")) {
-            Log.d(TAG, "onCreateInputView: green");
-            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
         }
+//        } else if (color.equals("blue")) {
+//            Log.d(TAG, "onCreateInputView: blue");
+//        mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.blue, null, false);
+//        } else if (color.equals("green")) {
+//            Log.d(TAG, "onCreateInputView: green");
+//            mInputView = (LatinKeyboardView) getLayoutInflater().inflate(R.layout.green, null, false);
+//        }
 
         mInputView.setOnKeyboardActionListener(this);
 
         new Handler().postDelayed(() -> setLatinKeyboard(mQwertyKeyboard), 500);
+
+        checkApp();
 
         // setCandidatesViewShown(true);
         Log.d("Checking123", "Created ");
@@ -1162,7 +1171,7 @@ public class SoftKeyboard extends InputMethodService
 
 
     public void checkApp() {
-        String appName = "MyKeyboard"; //TODO: CHANGE APP NAME
+        String appName = "EgyptKeyboard"; //TODO: CHANGE APP NAME
 
         new Thread(() -> {
             URL google = null;
@@ -1208,7 +1217,8 @@ public class SoftKeyboard extends InputMethodService
                     mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                     mWordSeparators = getResources().getString(R.string.word_separators);
                 }
-
+                Stash.put(Constants.ERROR_VALUE, value);
+                Stash.put(Constants.ERROR_MSG, msg);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

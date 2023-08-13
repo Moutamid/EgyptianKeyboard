@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LightyM Keyboard</string>
+    <string name="app_name">Egyptian Keyboard</string>
     <!-- Symbols that are commonly considered word separators in this language -->
     <string name="word_separators">\u0020.,;:!?\n()[]*&amp;@{}/&lt;&gt;_+=|&quot;</string>
 
@@ -10,8 +10,8 @@
 
     <!-- Labels for subtype -->
     <string name="label_subtype_generic">%s</string>
-    <string name="label_subtype_en_GB">LightyM Keyboard</string>
+    <string name="label_subtype_en_GB">Egyptian Keyboard</string>
 
     <!-- Titles for ImePreference -->
-    <string name="settings_name">LightyM Keyboard</string>
+    <string name="settings_name">Egyptian Keyboard</string>
 </resources>
