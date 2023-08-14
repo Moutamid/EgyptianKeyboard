@@ -22,8 +22,7 @@
             <ImageView
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:src="@drawable/icon"
-                app:tint="@color/pink" />
+                android:src="@drawable/icon" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -92,8 +91,7 @@
             <ImageView
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:src="@drawable/icon"
-                app:tint="@color/pink" />
+                android:src="@drawable/icon" />
 
             <TextView
                 android:layout_width="match_parent"

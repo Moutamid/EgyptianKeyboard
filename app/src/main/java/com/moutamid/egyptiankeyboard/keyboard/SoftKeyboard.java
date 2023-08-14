@@ -703,18 +703,17 @@ public class SoftKeyboard extends InputMethodService
                 break;
             case 16:
                 commit("\uD80C\uDDCC"); // 𓇌
-//                commit("\uD80C\uDC8C"); // 𓇌
                 break;
             case 17:
                 commit("\uD80C\uDFF2"); // 𓏲
 //                commit("\uD80C\uDFAF"); // 𓏲
                 break;
             case 18:
-                commit("\uD80C\uDDCC"); // 𓇌
+                commit("\uD80C\uDDCB"); // 𓇋
 //                commit("\uD80C\uDC8C"); // 𓇌
                 break;
             case 19:
-                commit("\uD80C\uDFEF"); // 𓏯
+                commit("\uD80C\uDF6F"); // 𓍯
 //                commit("\uD80C\uDFAF"); // 𓏯
                 break;
             case 20:
@@ -758,7 +757,7 @@ public class SoftKeyboard extends InputMethodService
 //                commit("\uD80C\uDCAD"); // 𓃭
                 break;
             case 30:
-                commit("\uD80C\uDE21"); // 𓈡
+                commit("\uD80C\uDD21"); // 𓄡
 //                commit("\uD80C\uDC21"); // 𓈡
                 break;
             case 31:
@@ -766,7 +765,7 @@ public class SoftKeyboard extends InputMethodService
 //                commit("\uD80C\uDC83"); // 𓊃
                 break;
             case 32:
-                commit("\uD80C\uDDB7"); // 𓆷
+                commit("\uD80C\uDE19"); // 𓈙
 //                commit("\uD80C\uDCB7"); // 𓆷
                 break;
             case 33:
@@ -842,7 +841,15 @@ public class SoftKeyboard extends InputMethodService
             case 48:
                 commit("\uD80C\uDC00"); // 𓀀
                 break;
-
+            case 49:
+                keyDownUp(KeyEvent.KEYCODE_ENTER);
+                break;
+            case 50:
+                commit("\uD80C\uDD8E"); // 𓆎
+                break;
+            case 51:
+                commit("\uD80C\uDE96"); // 𓊖
+                break;
 
         }
 //                    getCurrentInputConnection().commitText(String.valueOf((char) keyCode), 1);

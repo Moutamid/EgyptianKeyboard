@@ -25,6 +25,9 @@
         <Key android:codes="47" android:keyLabel="𓋹"/>
         <Key android:codes="48" android:keyLabel="𓀀"/>
 
+        <Key android:codes="50" android:keyLabel="𓆎"/>
+        <Key android:codes="51" android:keyLabel="𓊖"/>
+
 
     </Row>
 

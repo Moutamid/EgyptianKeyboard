@@ -9,7 +9,8 @@
     <string name="label_send_key">Send</string>
 
     <!-- Labels for subtype -->
-    <string name="label_subtype_generic">%s</string>
+    <string name="label_subtype_generic">Egyptian Keyboard</string>
+<!--    <string name="label_subtype_generic">%s</string>-->
     <string name="label_subtype_en_GB">Egyptian Keyboard</string>
 
     <!-- Titles for ImePreference -->
