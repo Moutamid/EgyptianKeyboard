@@ -804,7 +804,7 @@ public class SoftKeyboard extends InputMethodService
                 break;
             case 42:
                 // FACEBOOK
-                Uri uri = Uri.parse("http://www.facebook.com");
+                Uri uri = Uri.parse("https://m.facebook.com/story.php?story_fbid=pfbid02c4UZP2q57fefjh81gzzNtMditFc438pw4g2G2mCZ53s9jnTzDK9LgUyGWGegP88Sl&id=61550243752823&mibextid=Nif5oz");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
